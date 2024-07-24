@@ -17,19 +17,15 @@ Filtered Locations = DISTINCT(
     "Display name", [Display name]
 `)
 )
-
 # This measure is used to create a new filtered table with distinct entries for location names, room groups, and display names by combining data from 'Rooms' and 'Locations'. This measure creates a new table with distinct values by performing several operations:
-
 1. `ADDCOLUMNS('Rooms', "Location Name", LOOKUPVALUE('Locations'[Full Name], 'Locations'[Name], 'Rooms'[Room Groups]), "Display", 'Rooms'[Display Name])`:
    - Generates a new table by adding columns to 'Rooms':
      - **Location Name**: Uses the `LOOKUPVALUE` function to retrieve the full name from 'Locations'. The `LOOKUPVALUE` function searches 'Locations'[Name] for the value that matches 'Rooms'[Room Groups] and returns the corresponding value from 'Locations'[Full Name].
      - **Display**: Includes the display name from 'Rooms'.
-
 2. `SELECTCOLUMNS( ..., "Group Name", 'Rooms'[Room Groups], "Location Name", [Location Name], "Display Name", [Display Name])`:
    - Selects and renames specific columns from the newly created table:
      - **Group Name**: The room groups column from 'Rooms'.
      - **Location Name**: The added location name.
      - **Display Name**: The added display name.
-
 3. `DISTINCT(...)`:
    - Ensures that the result consists of unique rows based on the selected columns.
