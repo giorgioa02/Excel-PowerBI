@@ -1,0 +1,19 @@
+Measure = COUNTROWS('Dataset')
+# Counts the number of rows in the 'Dataset' table
+
+Measure = COUNTROWS(FILTER('Dataset1', 'Dataset1'[Condition1] = 1))
+Measure1 = COUNTROWS(FILTER('Dataset2', 'Dataset2'[Condition2] = 0))
+# Counts the number of rows in a given 'Dataset' table where the 'Condition' column equals 1 or 0
+
+Filtered Locations = DISTINCT(
+  SELECTCOLUMNS(
+    ADDCOLUMNS(
+      Rooms, 
+      "Location Name", LOOKUPVALUE(Locations[Full Name], Locations[Name], Rooms[Room groups]),
+      "Display", Rooms[Display name]
+    ), 
+    "Group Name", Rooms[Room groups], 
+    "Locations Name", [Location Name], 
+    "Display name", [Display name]
+`)
+)
